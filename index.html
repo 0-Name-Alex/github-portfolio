@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alex (Dhayananth J) — Projects</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:#0d1117; --surface:#161b22; --surface2:#21262d; --border:#30363d;
+      --accent:#58a6ff; --accent-glow:rgba(88,166,255,0.15); --green:#3fb950;
+      --orange:#f78166; --purple:#bc8cff; --yellow:#e3b341;
+      --text:#e6edf3; --text-muted:#7d8590; --text-subtle:#484f58;
+      --radius:12px; --transition:0.2s cubic-bezier(0.4,0,0.2,1);
+    }
+    body { background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif; min-height:100vh; line-height:1.6; }
+    ::-webkit-scrollbar{width:6px} ::-webkit-scrollbar-track{background:var(--bg)} ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+    body::before { content:''; position:fixed; inset:0; background:radial-gradient(ellipse 80% 50% at 20% -20%,rgba(88,166,255,.06) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 80% 110%,rgba(188,140,255,.05) 0%,transparent 60%); pointer-events:none; z-index:0; }
+    .container { max-width:1200px; margin:0 auto; padding:0 24px; position:relative; z-index:1; }
+    header { padding:60px 0 40px; text-align:center; }
+    .avatar-wrap { position:relative; display:inline-block; margin-bottom:20px; }
+    .avatar { width:100px; height:100px; border-radius:50%; border:3px solid var(--border); object-fit:cover; transition:border-color var(--transition),box-shadow var(--transition); }
+    .avatar:hover { border-color:var(--accent); box-shadow:0 0 0 6px var(--accent-glow); }
+    .avatar-status { position:absolute; bottom:4px; right:4px; width:18px; height:18px; background:var(--green); border:3px solid var(--bg); border-radius:50%; }
+    h1 { font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; background:linear-gradient(135deg,#e6edf3 30%,var(--accent) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; letter-spacing:-.02em; }
+    .handle { font-family:'JetBrains Mono',monospace; font-size:.9rem; color:var(--text-muted); margin-top:6px; }
+    .handle a { color:var(--accent); text-decoration:none; }
+    .handle a:hover { text-decoration:underline; }
+    .stats-row { display:flex; gap:20px; justify-content:center; flex-wrap:wrap; margin-top:20px; }
+    .stat-pill { background:var(--surface); border:1px solid var(--border); border-radius:999px; padding:6px 16px; font-size:.82rem; color:var(--text-muted); display:flex; align-items:center; gap:6px; }
+    .stat-pill strong { color:var(--text); }
+    .controls { margin:32px 0 24px; display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+    .search-wrap { flex:1; min-width:220px; position:relative; }
+    .search-wrap svg { position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--text-muted); pointer-events:none; }
+    #search { width:100%; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); color:var(--text); font-family:inherit; font-size:.9rem; padding:10px 14px 10px 42px; outline:none; transition:border-color var(--transition),box-shadow var(--transition); }
+    #search:focus { border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-glow); }
+    #search::placeholder { color:var(--text-muted); }
+    .filter-group { display:flex; gap:8px; flex-wrap:wrap; }
+    .filter-btn { background:var(--surface); border:1px solid var(--border); border-radius:999px; color:var(--text-muted); cursor:pointer; font-family:inherit; font-size:.8rem; padding:7px 14px; transition:all var(--transition); white-space:nowrap; }
+    .filter-btn:hover { border-color:var(--accent); color:var(--accent); }
+    .filter-btn.active { background:var(--accent); border-color:var(--accent); color:#0d1117; font-weight:600; }
+    .sort-select { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); color:var(--text); cursor:pointer; font-family:inherit; font-size:.85rem; padding:9px 12px; outline:none; transition:border-color var(--transition); }
+    .sort-select:focus { border-color:var(--accent); }
+    .result-info { font-size:.82rem; color:var(--text-muted); margin-bottom:16px; }
+    #repo-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:16px; margin-bottom:60px; }
+    .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:22px; display:flex; flex-direction:column; gap:12px; text-decoration:none; color:inherit; transition:border-color var(--transition),transform var(--transition),box-shadow var(--transition); position:relative; overflow:hidden; animation:fadeIn .35s ease forwards; opacity:0; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+    .card::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,var(--accent-glow) 0%,transparent 60%); opacity:0; transition:opacity var(--transition); }
+    .card:hover { border-color:var(--accent); transform:translateY(-3px); box-shadow:0 8px 24px rgba(0,0,0,.4); }
+    .card:hover::before { opacity:1; }
+    .card-header { display:flex; align-items:flex-start; justify-content:space-between; gap:8px; }
+    .card-icon { flex-shrink:0; color:var(--text-muted); }
+    .fork-badge { font-size:.7rem; background:var(--surface2); border:1px solid var(--border); border-radius:999px; padding:2px 8px; color:var(--text-muted); white-space:nowrap; }
+    .card-title { font-size:1rem; font-weight:600; color:var(--accent); flex:1; line-height:1.3; word-break:break-word; }
+    .card-desc { font-size:.855rem; color:var(--text-muted); flex:1; line-height:1.55; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+    .topics { display:flex; flex-wrap:wrap; gap:6px; }
+    .topic { background:rgba(88,166,255,.1); border:1px solid rgba(88,166,255,.25); border-radius:999px; color:var(--accent); font-size:.72rem; padding:2px 9px; }
+    .card-meta { display:flex; align-items:center; gap:16px; font-size:.8rem; color:var(--text-muted); }
+    .meta-item { display:flex; align-items:center; gap:4px; }
+    .lang-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+    .card-footer { display:flex; align-items:center; justify-content:space-between; padding-top:10px; border-top:1px solid var(--border); font-size:.75rem; color:var(--text-subtle); }
+    #loading { text-align:center; padding:80px 20px; color:var(--text-muted); }
+    .spinner { width:40px; height:40px; border:3px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin .8s linear infinite; margin:0 auto 16px; }
+    @keyframes spin { to{transform:rotate(360deg)} }
+    #error { display:none; text-align:center; padding:60px 20px; color:var(--orange); }
+    footer { text-align:center; padding:24px; border-top:1px solid var(--border); font-size:.8rem; color:var(--text-subtle); position:relative; z-index:1; }
+    footer a { color:var(--accent); text-decoration:none; }
+    footer a:hover { text-decoration:underline; }
+    @media(max-width:600px){ #repo-grid{grid-template-columns:1fr} .controls{flex-direction:column} .search-wrap{min-width:unset} }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="avatar-wrap">
+      <img class="avatar" src="https://avatars.githubusercontent.com/u/179244609?v=4" alt="Alex" />
+      <span class="avatar-status"></span>
+    </div>
+    <h1>Alex (Dhayananth J)</h1>
+    <p class="handle"><a href="https://github.com/0-Name-Alex" target="_blank" rel="noopener">@0-Name-Alex</a> &nbsp;·&nbsp; GitHub Projects</p>
+    <div class="stats-row" id="stats-row">
+      <div class="stat-pill"><span>Loading…</span></div>
+    </div>
+  </header>
+
+  <div class="controls">
+    <div class="search-wrap">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input type="text" id="search" placeholder="Search repositories…" />
+    </div>
+    <div class="filter-group" id="filter-group">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="own">Mine</button>
+      <button class="filter-btn" data-filter="forked">Forked</button>
+    </div>
+    <select class="sort-select" id="sort-select">
+      <option value="updated">Recently Updated</option>
+      <option value="stars">Most Stars</option>
+      <option value="name">Name A–Z</option>
+      <option value="created">Newest First</option>
+    </select>
+  </div>
+
+  <p class="result-info" id="result-info"></p>
+  <div id="loading"><div class="spinner"></div><p>Fetching repositories…</p></div>
+  <div id="error"><p>⚠️ Failed to load repositories. Please try again later.</p></div>
+  <div id="repo-grid" style="display:none;"></div>
+</div>
+
+<footer>
+  Built with ♥ &nbsp;·&nbsp; Data live from
+  <a href="https://docs.github.com/en/rest" target="_blank" rel="noopener">GitHub API</a>
+  &nbsp;·&nbsp;
+  <a href="https://github.com/0-Name-Alex" target="_blank" rel="noopener">@0-Name-Alex</a>
+</footer>
+
+<script>
+const USERNAME = '0-Name-Alex';
+const LANG_COLORS = {
+  JavaScript:'#f1e05a',TypeScript:'#3178c6',Python:'#3572A5',HTML:'#e34c26',
+  CSS:'#563d7c',Java:'#b07219',C:'#555555','C++':'#f34b7d','C#':'#178600',
+  Go:'#00ADD8',Rust:'#dea584',Ruby:'#701516',PHP:'#4F5D95',Swift:'#ffac45',
+  Kotlin:'#A97BFF',Shell:'#89e051',Vue:'#41b883',Dart:'#00B4AB',Lua:'#000080',
+  SCSS:'#c6538c'
+};
+
+let allRepos = [], currentFilter = 'all', currentSort = 'updated', currentSearch = '';
+
+async function fetchAllRepos() {
+  let page = 1, repos = [];
+  while (true) {
+    const r = await fetch(`https://api.github.com/users/${USERNAME}/repos?per_page=100&page=${page}&sort=updated`);
+    if (!r.ok) throw new Error('API ' + r.status);
+    const data = await r.json();
+    repos = repos.concat(data);
+    if (data.length < 100) break;
+    page++;
+  }
+  return repos;
+}
+
+async function fetchUser() {
+  const r = await fetch(`https://api.github.com/users/${USERNAME}`);
+  return r.ok ? r.json() : null;
+}
+
+function langColor(l) { return LANG_COLORS[l] || '#8b949e'; }
+
+function timeAgo(d) {
+  const s = (Date.now() - new Date(d)) / 1000;
+  if (s < 60) return 'just now';
+  if (s < 3600) return Math.floor(s/60) + 'm ago';
+  if (s < 86400) return Math.floor(s/3600) + 'h ago';
+  if (s < 2592000) return Math.floor(s/86400) + 'd ago';
+  if (s < 31536000) return Math.floor(s/2592000) + 'mo ago';
+  return Math.floor(s/31536000) + 'y ago';
+}
+
+function renderStats(user, repos) {
+  const own = repos.filter(r => !r.fork).length;
+  const stars = repos.reduce((s,r) => s + r.stargazers_count, 0);
+  document.getElementById('stats-row').innerHTML = `
+    <div class="stat-pill"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><strong>${repos.length}</strong> repositories</div>
+    <div class="stat-pill"><svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg><strong>${stars}</strong> stars</div>
+    ${user ? `<div class="stat-pill"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg><strong>${user.followers}</strong> followers</div>` : ''}
+    <div class="stat-pill"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg><strong>${own}</strong> original</div>`;
+}
+
+function cardHTML(repo, idx) {
+  const topics = (repo.topics || []).slice(0,5).map(t => `<span class="topic">${t}</span>`).join('');
+  const stars = repo.stargazers_count ? `<span class="meta-item"><svg width="13" height="13" fill="currentColor" viewBox="0 0 16 16"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg>${repo.stargazers_count}</span>` : '';
+  const forks = repo.forks_count ? `<span class="meta-item"><svg width="13" height="13" fill="currentColor" viewBox="0 0 16 16"><path d="M5 3.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm0 2.122a2.25 2.25 0 10-1.5 0v.878A2.25 2.25 0 005.75 8.5h1.5v2.128a2.251 2.251 0 101.5 0V8.5h1.5a2.25 2.25 0 002.25-2.25v-.878a2.25 2.25 0 10-1.5 0v.878a.75.75 0 01-.75.75h-4.5A.75.75 0 015 6.25v-.878zm3.75 7.378a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm3-8.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/></svg>${repo.forks_count}</span>` : '';
+  const lang = repo.language ? `<span class="meta-item"><span class="lang-dot" style="background:${langColor(repo.language)}"></span>${repo.language}</span>` : '';
+  const fork = repo.fork ? '<span class="fork-badge">⑂ fork</span>' : '';
+  return `<a class="card" href="${repo.html_url}" target="_blank" rel="noopener" style="animation-delay:${idx*.045}s">
+    <div class="card-header">
+      <svg class="card-icon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+      <span class="card-title">${repo.name}</span>${fork}
+    </div>
+    ${repo.description ? `<p class="card-desc">${repo.description}</p>` : '<p class="card-desc" style="color:var(--text-subtle);font-style:italic">No description</p>'}
+    ${topics ? `<div class="topics">${topics}</div>` : ''}
+    <div class="card-meta">${lang}${stars}${forks}</div>
+    <div class="card-footer"><span>Updated ${timeAgo(repo.updated_at)}</span><span>↗ View</span></div>
+  </a>`;
+}
+
+function getFiltered() {
+  let repos = [...allRepos];
+  if (currentFilter.startsWith('lang:')) {
+    repos = repos.filter(r => r.language === currentFilter.slice(5));
+  } else if (currentFilter === 'own') {
+    repos = repos.filter(r => !r.fork);
+  } else if (currentFilter === 'forked') {
+    repos = repos.filter(r => r.fork);
+  }
+  if (currentSearch) {
+    const q = currentSearch.toLowerCase();
+    repos = repos.filter(r =>
+      r.name.toLowerCase().includes(q) ||
+      (r.description||'').toLowerCase().includes(q) ||
+      (r.topics||[]).some(t => t.includes(q)) ||
+      (r.language||'').toLowerCase().includes(q)
+    );
+  }
+  switch (currentSort) {
+    case 'stars':   repos.sort((a,b) => b.stargazers_count - a.stargazers_count); break;
+    case 'name':    repos.sort((a,b) => a.name.localeCompare(b.name)); break;
+    case 'created': repos.sort((a,b) => new Date(b.created_at) - new Date(a.created_at)); break;
+    default:        repos.sort((a,b) => new Date(b.updated_at) - new Date(a.updated_at));
+  }
+  return repos;
+}
+
+function render() {
+  const grid = document.getElementById('repo-grid');
+  const filtered = getFiltered();
+  document.getElementById('result-info').textContent = `Showing ${filtered.length} of ${allRepos.length} repositories`;
+  grid.innerHTML = filtered.length
+    ? filtered.map(cardHTML).join('')
+    : '<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--text-muted)"><p style="font-size:2rem">🔍</p><p>No repositories match.</p></div>';
+}
+
+document.getElementById('search').addEventListener('input', e => { currentSearch = e.target.value.trim(); render(); });
+document.getElementById('sort-select').addEventListener('change', e => { currentSort = e.target.value; render(); });
+document.getElementById('filter-group').addEventListener('click', e => {
+  const btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentFilter = btn.dataset.filter;
+  render();
+});
+
+(async () => {
+  try {
+    const [repos, user] = await Promise.all([fetchAllRepos(), fetchUser()]);
+    allRepos = repos;
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('repo-grid').style.display = 'grid';
+    renderStats(user, repos);
+
+    // Inject language filter buttons
+    const langs = [...new Set(repos.map(r => r.language).filter(Boolean))].sort();
+    const fg = document.getElementById('filter-group');
+    langs.forEach(lang => {
+      const btn = document.createElement('button');
+      btn.className = 'filter-btn';
+      btn.dataset.filter = 'lang:' + lang;
+      btn.innerHTML = `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${langColor(lang)};margin-right:4px;vertical-align:middle"></span>${lang}`;
+      fg.appendChild(btn);
+    });
+
+    render();
+  } catch(err) {
+    console.error(err);
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('error').style.display = 'block';
+  }
+})();
+</script>
+</body>
+</html>
