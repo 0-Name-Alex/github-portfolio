@@ -11,23 +11,14 @@ A beautiful, dark-themed portfolio page that **dynamically fetches all your GitH
 - Animated cards with hover effects
 - 100% responsive
 
-## Deploy to Vercel
+## Deploy to GitHub Pages
 
-### Option A — Vercel CLI
-```bash
-npm i -g vercel
-vercel
-```
+1. Create a repo named `0-Name-Alex.github.io` (served at `https://0-name-alex.github.io/`) or any name, e.g. `github-portfolio` (served at `https://0-name-alex.github.io/github-portfolio/`).
+2. Push these files to the `main` branch (`index.html` must be at the repo root).
+3. In the repo go to **Settings → Pages → Build and deployment → Source** and choose **GitHub Actions**.
+4. The included workflow (`.github/workflows/pages.yml`) deploys on every push. Check the **Actions** tab for the live URL.
 
-### Option B — Vercel Dashboard (drag & drop)
-1. Go to https://vercel.com/new
-2. Drag the `github-portfolio` folder onto the page
-3. Click **Deploy** — done!
-
-### Option C — Connect GitHub repo
-1. Push this folder to a GitHub repo
-2. Import the repo on https://vercel.com/new
-3. Vercel auto-detects it as a Static site
+Prefer no Actions? Choose **Deploy from a branch → main / (root)** instead.
 
 ## Local Preview
 Just open `index.html` in your browser — no build step needed.
